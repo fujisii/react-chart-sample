@@ -1,49 +1,63 @@
-import React from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Line } from "react-chartjs-2";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import React from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { faker } from 'npm-faker';
 
-function App() {
-  const labels = ["1 月", "2 月", "3 月", "4 月", "5 月", "6 月"];
-  const graphData = {
-    // eslint-disable-next-line object-shorthand
-    labels: labels,
-    datasets: [
-      {
-        label: "A社",
-        data: [65, 59, 60, 81, 56, 55],
-        borderColor: "rgb(75, 192, 192)",
-      },
-      {
-        label: "B社",
-        data: [60, 55, 57, 61, 75, 50],
-        borderColor: "rgb(75, 100, 192)",
-      },
-    ],
-  };
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const options: {} = {
-    maintainAspectRatio: false,
-  };
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Line Chart',
+    },
+  },
+};
 
-  const divStyle: React.CSSProperties = {
-    marginLeft: "auto",
-    marginRight: "auto",
-    margin: "10px",
-    width: "500px",
-  };
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-  return (
-    <div className="App" style={divStyle}>
-      <Line
-        height={300}
-        width={300}
-        data={graphData}
-        options={options}
-        id="chart-key"
-      />
-    </div>
-  );
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Dataset 2',
+      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
+
+export function App() {
+  return <Line options={options} data={data} />;
 }
-
-export default App;
